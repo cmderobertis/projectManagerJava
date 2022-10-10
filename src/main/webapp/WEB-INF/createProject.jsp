@@ -28,7 +28,6 @@
         </div>
         <%--@elvariable id="project" type=""--%>
         <form:form action="/projects" method="post" modelAttribute="project">
-          <form:hidden path="leader" value="${user.id}"/>
           <p class="form-control d-flex flex-column">
             <form:label path="title">Title</form:label>
             <form:errors path="title" cssClass="text-danger"/>

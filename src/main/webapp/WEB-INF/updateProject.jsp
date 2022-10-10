@@ -33,9 +33,9 @@
         <%--@elvariable id="project" type=""--%>
         <form:form action="/projects/${project.id}" method="post" modelAttribute="project">
           <input type="hidden" name="_method" value="put">
-          <form:hidden path="leader" value="${user}"/>
-          <form:hidden path="assignees" value="${project.assignees}"/>
-          <p>${project.assignees}</p>
+          <form:hidden path="leader" value="${project.leader.id}"/>
+<%--          <form:errors path="assignees" cssClass="text-danger"/>--%>
+<%--          <form:hidden path="assignees" value="${}"/>--%>
           <p class="form-control d-flex flex-column">
             <form:label path="title">Title</form:label>
             <form:errors path="title" cssClass="text-danger"/>

@@ -40,7 +40,7 @@ public class User {
             joinColumns = @JoinColumn(name = "assignee_id"),
             inverseJoinColumns = @JoinColumn(name = "project_id")
     )
-    private List<Project> assignedProjects;
+    private List<Project> projects;
     public User() {}
     public Long getId() {return id;}
     public void setId(Long id) {this.id = id;}
@@ -64,6 +64,6 @@ public class User {
     public void setConfirm(String confirm) {this.confirm = confirm;}
     public List<Project> getLedProjects() {return ledProjects;}
     public void setLedProjects(List<Project> ledProjects) {this.ledProjects = ledProjects;}
-    public List<Project> getAssignedProjects() {return assignedProjects;}
-    public void setAssignedProjects(List<Project> assignedProjects) {this.assignedProjects = assignedProjects;}
+    public List<Project> getProjects() {return projects;}
+    public void setProjects(List<Project> projects) {this.projects = projects;}
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -49,25 +50,38 @@ public class ProjectController {
         return "showProject.jsp";
     }
     @GetMapping("/projects/{id}/edit")
-    String updateForm(@PathVariable("id") Long id, Model model, HttpSession session) {
+    String updateForm(
+            @PathVariable("id") Long id, Model model, HttpSession session) {
+        if(session.getAttribute("userId") == null) {
+            return "redirect:/logout";
+        }
         Project project = service.getOne(id);
-        if (!Objects.equals((Long)session.getAttribute("userId"), project.getLeader().getId())) {
+        if (!Objects.equals(session.getAttribute("userId"), project.getLeader().getId())) {
             return "redirect:/projects";
         }
-        User user = userService.getOne((Long) session.getAttribute("userId"));
         model.addAttribute("project", project);
-        model.addAttribute("user", user);
         return "updateProject.jsp";
     }
     @PutMapping("/projects/{id}")
     String update(
+            @PathVariable Long id,
             @Valid
             @ModelAttribute("project") Project project,
-            BindingResult result) {
-        if (result.hasErrors()) {
+            BindingResult result,
+            Model model,
+            HttpSession session) {
+        if(session.getAttribute("userId") == null) {
+            return "redirect:/logout";
+        }
+        Long userId = (Long) session.getAttribute("userId");
+
+        User user = userService.getOne(userId);
+        if (result.hasErrors() && !result.hasFieldErrors("assignees")) {
             System.out.println("error updating project");
             return "updateProject.jsp";
         } else {
+            Project thisProject = service.getOne(id);
+            project.setAssignees(thisProject.getAssignees());
             service.update(project);
             return "redirect:/projects";
         }
